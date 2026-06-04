@@ -1,0 +1,53 @@
+#include <iostream>
+#include <deque>
+#include <string>
+#include <algorithm>
+
+void addCommand(std::deque<std::string>& history, const std::string& command) {
+    history.push_back(command);
+}
+
+void printAllCommands(const std::deque<std::string>& history) {
+    std::cout << "Полная история команд:\n";
+    for (const auto& cmd : history) {
+        std::cout << "  " << cmd << "\n";
+    }
+}
+
+void printLastNCommands(const std::deque<std::string>& history, size_t n) {
+    std::cout << "Последние " << n << " команд:\n";
+
+    size_t count = std::min(n, history.size());
+
+    if (count == 0) {
+        std::cout << "  История пуста.\n";
+        return;
+    }
+
+    auto it = history.end() - count;
+
+    for (; it != history.end(); ++it) {
+        std::cout << "  " << *it << "\n";
+    }
+}
+
+int main() {
+    std::deque<std::string> terminalHistory = {"help", "cd project", "build", "run", "exit"};
+
+    addCommand(terminalHistory, "ls -la");
+    addCommand(terminalHistory, "git status");
+    addCommand(terminalHistory, "make clean");
+
+    printAllCommands(terminalHistory);
+    std::cout << "--------------------------\n";
+
+    printLastNCommands(terminalHistory, 3);
+    std::cout << "--------------------------\n";
+
+    printLastNCommands(terminalHistory, 100);
+    std::cout << "--------------------------\n";
+
+    printLastNCommands(terminalHistory, 0);
+    
+    return 0;
+}
