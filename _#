@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+void printAll(const std::vector<std::string>& students) {
+    std::cout << "Список студентов: ";
+    for (const auto& name : students) {
+        std::cout << name << " ";
+    }
+    std::cout << std::endl;
+}
+
+const std::string* findStudent(const std::vector<std::string>& students, const std::string& target) {
+    for (const auto& name : students) {
+        if (name == target) {
+            return &name;
+        }
+    }
+    return nullptr;
+}
+
+int main() {
+    const std::vector<std::string> students = {
+        "Alice", "Bob", "Charlie", "Diana", "Edward", "Fiona"
+    };
+
+    printAll(students);
+
+    const std::string target1 = "Charlie";
+    auto result1 = findStudent(students, target1);
+
+    if (result1 != nullptr) {
+        std::cout << "Студент найден: " << *result1 << std::endl;
+    } else {
+        std::cout << "Студент " << target1 << " не найден." << std::endl;
+    }
+
+    const std::string target2 = "George";
+    auto result2 = findStudent(students, target2);
+
+    if (result2 != nullptr) {
+        std::cout << "Студент найден: " << *result2 << std::endl;
+    } else {
+        std::cout << "Студент " << target2 << " не найден." << std::endl;
+    }
+    return 0;
+}
