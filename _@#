@@ -1,0 +1,100 @@
+#include <iostream>
+#include <vector>
+#include <deque>
+#include <list>
+#include <chrono>
+
+using namespace std;
+using namespace std::chrono;
+
+void printResult(string name, int n, double back, double front, double travel) {
+    cout << name << " | N=" << n
+         << " | Back: " << back << "us"
+         << " | Front: " << front << "us"
+         << " | Travel: " << travel << "us" << endl;
+}
+
+void runTest(int n) {
+    cout << "\n--- Тест для N = " << n << " ---" << endl;
+
+    {
+        vector<int> v;
+        auto s1 = high_resolution_clock::now();
+        for(int i=0; i<n; ++i) v.push_back(i);
+        auto e1 = high_resolution_clock::now();
+
+        v.clear();
+        auto s2 = high_resolution_clock::now();
+        for(int i=0; i<n; ++i) v.insert(v.begin(), i);
+        auto e2 = high_resolution_clock::now();
+
+        long long sum = 0;
+        auto s3 = high_resolution_clock::now();
+        for(int x : v) sum += x;
+        auto e3 = high_resolution_clock::now();
+
+        printResult("vector", n,
+            duration<double, micro>(e1-s1).count(),
+            duration<double, micro>(e2-s2).count(),
+            duration<double, micro>(e3-s3).count());
+    }
+
+    {
+        deque<int> d;
+        auto s1 = high_resolution_clock::now();
+        for(int i=0; i<n; ++i) d.push_back(i);
+        auto e1 = high_resolution_clock::now();
+
+        auto s2 = high_resolution_clock::now();
+        d.clear();
+        for(int i=0; i<n; ++i) d.push_front(i);
+        auto e2 = high_resolution_clock::now();
+
+        long long sum = 0;
+        auto s3 = high_resolution_clock::now();
+        for(int x : d) sum += x;
+        auto e3 = high_resolution_clock::now();
+
+        printResult("deque ", n,
+            duration<double, micro>(e1-s1).count(),
+            duration<double, micro>(e2-s2).count(),
+            duration<double, micro>(e3-s3).count());
+    }
+
+    {
+        list<int> l;
+        auto s1 = high_resolution_clock::now();
+        for(int i=0; i<n; ++i) l.push_back(i);
+        auto e1 = high_resolution_clock::now();
+
+        auto s2 = high_resolution_clock::now();
+        l.clear();
+        for(int i=0; i<n; ++i) l.push_front(i);
+        auto e2 = high_resolution_clock::now();
+
+        long long sum = 0;
+        auto s3 = high_resolution_clock::now();
+        for(int x : l) sum += x;
+        auto e3 = high_resolution_clock::now();
+
+        printResult("list  ", n,
+            duration<double, micro>(e1-s1).count(),
+            duration<double, micro>(e2-s2).count(),
+            duration<double, micro>(e3-s3).count());
+    }
+}
+
+int main() {
+    runTest(1000);
+    runTest(10000);
+    runTest(100000);
+
+    cout << "\n========================================" << endl;
+    cout << "ВЫВОД:" << endl;
+    cout << "- Добавление в конец: быстрее всех vector." << endl;
+    cout << "- Добавление в начало: быстрее всех deque и list (vector очень медленный)." << endl;
+    cout << "- Обход: удобнее и быстрее всего vector." << endl;
+    cout << "========================================" << endl;
+
+    return 0;
+}
