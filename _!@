@@ -21,6 +21,7 @@ int main() {
     } else {
         std::cout << "Элемент " << target1 << " не найден." << std::endl;
     }
+
     int target2 = 99;
     auto result2 = findElement(numbers, size, target2);
 
