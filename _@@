@@ -1,0 +1,51 @@
+#include <iostream>
+#include <map>
+#include <string>
+
+void addOrUpdateContact(std::map<std::string, std::string>& phoneBook, const std::string& name, const std::string& phone) {
+    phoneBook[name] = phone;
+}
+
+void findContact(const std::map<std::string, std::string>& phoneBook, const std::string& name) {
+    auto it = phoneBook.find(name);
+
+    if (it != phoneBook.end()) {
+        std::cout << "Контакт найден: " << it->first << " -> " << it->second << "\n";
+    } else {
+        std::cout << "Ошибка: Запись '" << name << "' не найдена.\n";
+    }
+}
+
+void printAllContacts(const std::map<std::string, std::string>& phoneBook) {
+    std::cout << "--- Телефонная книга (отсортирована по именам) ---\n";
+    if (phoneBook.empty()) {
+        std::cout << "Книга пуста.\n";
+        return;
+    }
+    for (const auto& pair : phoneBook) {
+        std::cout << pair.first << ": " << pair.second << "\n";
+    }
+    std::cout << "--------------------------------------------------\n";
+}
+
+int main() {
+    std::map<std::string, std::string> myPhoneBook = {
+        {"Alice", "123-456"},
+        {"Charlie", "555-000"},
+        {"Bob", "777-888"},
+        {"Eve", "111-222"},
+        {"David", "444-555"}
+    };
+
+    addOrUpdateContact(myPhoneBook, "Frank", "999-000");
+
+    addOrUpdateContact(myPhoneBook, "Alice", "000-000");
+
+    findContact(myPhoneBook, "Bob");
+
+    findContact(myPhoneBook, "Zorro");
+
+    printAllContacts(myPhoneBook);
+
+    return 0;
+}
