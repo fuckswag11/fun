@@ -1,0 +1,33 @@
+#include <iostream>
+
+const int* findElement(const int* arr, size_t size, int target) {
+    for (size_t i = 0; i < size; ++i) {
+        if (arr[i] == target) {
+            return &arr[i];
+        }
+    }
+    return nullptr;
+}
+
+int main() {
+    const int numbers[] = {10, 25, 30, 45, 50};
+    const size_t size = sizeof(numbers) / sizeof(numbers[0]);
+
+    int target1 = 30;
+    auto result1 = findElement(numbers, size, target1);
+
+    if (result1 != nullptr) {
+        std::cout << "Элемент найден: " << *result1 << std::endl;
+    } else {
+        std::cout << "Элемент " << target1 << " не найден." << std::endl;
+    }
+    int target2 = 99;
+    auto result2 = findElement(numbers, size, target2);
+
+    if (result2 != nullptr) {
+        std::cout << "Элемент найден: " << *result2 << std::endl;
+    } else {
+        std::cout << "Элемент " << target2 << " не найден." << std::endl;
+    }
+    return 0;
+}
