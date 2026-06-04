@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+
+int calculate_sum(const std::vector<int>& vec) {
+    int sum = 0;
+    for (const auto& element : vec) {
+        sum += element;
+    }
+    return sum;
+}
+
+int find_max(const std::vector<int>& vec) {
+    auto max_val = vec[0];
+
+    for (const auto& element : vec) {
+        if (element > max_val) {
+            max_val = element;
+        }
+    }
+    return max_val;
+}
+
+void print_elements(const std::vector<int>& vec) {
+    for (const auto& element : vec) {
+        std::cout << element << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    const std::vector<int> numbers = {42, 7, 15, 89, 23, 56, 3, 11, 99, 34, 67};
+    
+    const int SIZE = static_cast<int>(numbers.size());
+
+    const auto total_sum = calculate_sum(numbers);
+    const auto max_element = find_max(numbers);
+    
+    std::cout << "Элементы массива: ";
+    print_elements(numbers);
+
+    std::cout << "Размер массива: " << SIZE << std::endl;
+    std::cout << "Сумма всех элементов: " << total_sum << std::endl;
+    std::cout << "Максимальный элемент: " << max_element << std::endl;
+
+    return 0;
+}
