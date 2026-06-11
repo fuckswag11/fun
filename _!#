@@ -9,7 +9,7 @@ void printAll(const std::vector<std::string>& students) {
     }
     std::cout << std::endl;
 }
-
+ 
 const std::string* findStudent(const std::vector<std::string>& students, const std::string& target) {
     for (const auto& name : students) {
         if (name == target) {
