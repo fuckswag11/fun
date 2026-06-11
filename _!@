@@ -7,7 +7,7 @@ const int* findElement(const int* arr, size_t size, int target) {
         }
     }
     return nullptr;
-}
+} 
 
 int main() {
     const int numbers[] = {10, 25, 30, 45, 50};
