@@ -1,0 +1,95 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <algorithm>
+#include <cctype>
+
+void printWords(const std::vector<std::string>& words) {
+    std::cout << "[ ";
+    for (const auto& word : words) {
+        std::cout << "\"" << word << "\" ";
+    }
+    std::cout << "]" << std::endl;
+}
+
+void toLower(std::vector<std::string>& words) {
+    for (auto& word : words) {
+        std::transform(word.begin(), word.end(), word.begin(), [](unsigned char c) {
+            return std::tolower(c);
+        });
+    }
+}
+
+void removeShortWords(std::vector<std::string>& words, size_t minLength) {
+    words.erase(std::remove_if(words.begin(), words.end(), [minLength](const std::string& s) {
+        return s.length() < minLength;
+    }), words.end());
+}
+
+std::unordered_map<std::string, int> buildFrequencyMap(const std::vector<std::string>& words) {
+    std::unordered_map<std::string, int> freq;
+    for (const auto& word : words) {
+        freq[word]++;
+    }
+    return freq;
+}
+
+void printFrequencyMap(const std::unordered_map<std::string, int>& freq) {
+    std::cout << "Frequency Dictionary:" << std::endl;
+    for (const auto& [word, count] : freq) {
+        std::cout << word << ": " << count << std::endl;
+    }
+}
+
+int main() {
+    std::vector<std::string> words = {
+        "Code", "stl", "map", "vector", "code",
+        "Sort", "vector", "qt", "algorithm",
+        "sort", "QT", "code", "AI", "map", "tree",
+        "hash", "HASH", "vector", "go", "container"
+    };
+
+    std::cout << "Initial list:" << std::endl;
+    printWords(words);
+
+    toLower(words);
+    removeShortWords(words, 4);
+
+    std::cout << "\nProcessed list (lower case, length >= 4):" << std::endl;
+    printWords(words);
+
+    int countC = std::count_if(words.begin(), words.end(), [](const std::string& s) {
+        return !s.empty() && s[0] == 'c';
+    });
+    std::cout << "\nWords starting with 'c': " << countC << std::endl;
+
+    auto itLong = std::find_if(words.begin(), words.end(), [](const std::string& s) {
+        return s.length() > 6;
+    });
+    if (itLong != words.end()) {
+        std::cout << "First word longer than 6 chars: " << *itLong << std::endl;
+    }
+
+    bool hasVeryLong = std::any_of(words.begin(), words.end(), [](const std::string& s) {
+        return s.length() > 8;
+    });
+    std::cout << "Contains word longer than 8 chars? " << (hasVeryLong ? "Yes" : "No") << std::endl;
+
+    auto freq = buildFrequencyMap(words);
+    printFrequencyMap(freq);
+
+    if (!freq.empty()) {
+        auto maxIt = std::max_element(freq.begin(), freq.end(), [](const auto& a, const auto& b) {
+            return a.second < b.second;
+        });
+        std::cout << "\nMost frequent word: \"" << maxIt->first << "\" (" << maxIt->second << " times)" << std::endl;
+    }
+
+    bool noEmptyStrings = std::none_of(words.begin(), words.end(), [](const std::string& s) {
+        return s.empty();
+    });
+    std::cout << "No empty strings left? " << (noEmptyStrings ? "Yes" : "No") << std::endl;
+
+    return 0;
+}
