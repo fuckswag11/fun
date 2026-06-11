@@ -43,4 +43,4 @@ int main() {
     std::cout << "Максимальный элемент: " << max_element << std::endl;
 
     return 0;
-}
+} 
