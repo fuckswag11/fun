@@ -13,7 +13,7 @@ void printAllCommands(const std::deque<std::string>& history) {
         std::cout << "  " << cmd << "\n";
     }
 }
-
+ 
 void printLastNCommands(const std::deque<std::string>& history, size_t n) {
     std::cout << "Последние " << n << " команд:\n";
 
