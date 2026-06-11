@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <algorithm>
 #include <cctype>
-
+ 
 void printWords(const std::vector<std::string>& words) {
     std::cout << "[ ";
     for (const auto& word : words) {
