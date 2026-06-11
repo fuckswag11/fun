@@ -10,7 +10,7 @@ void printVector(const std::vector<int>& vec) {
     }
     std::cout << "]" << std::endl;
 }
-
+ 
 std::vector<int> filterCorrectValues(const std::vector<int>& vec) {
     std::vector<int> correctOnes;
     correctOnes.reserve(vec.size());
