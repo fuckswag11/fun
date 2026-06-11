@@ -6,7 +6,7 @@
 
 using namespace std;
 using namespace std::chrono;
-
+ 
 void printResult(string name, int n, double back, double front, double travel) {
     cout << name << " | N=" << n
          << " | Back: " << back << "us"
