@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+
+void printVector(const std::vector<int>& vec) {
+    std::cout << "[ ";
+    for (auto it = vec.begin(); it != vec.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << "]" << std::endl;
+}
+
+std::vector<int> filterCorrectValues(const std::vector<int>& vec) {
+    std::vector<int> correctOnes;
+    correctOnes.reserve(vec.size());
+    std::copy_if(vec.begin(), vec.end(), std::back_inserter(correctOnes), [](int x) {
+        return x > 0;
+    });
+    return correctOnes;
+}
+
+int countInRange(const std::vector<int>& vec, int min, int max) {
+    return std::count_if(vec.begin(), vec.end(), [min, max](int x) {
+        return x >= min && x <= max;
+    });
+}
+
+std::vector<int> getSquares(const std::vector<int>& vec) {
+    std::vector<int> squares;
+    squares.reserve(vec.size());
+    std::transform(vec.begin(), vec.end(), std::back_inserter(squares), [](int x) {
+        return x * x;
+    });
+    return squares;
+}
+
+int main() {
+    std::vector<int> data = {
+        12, 5, -3, 12, 0, 7, 18, -1, 5, 22,
+        22, 9, 0, 14, 7, 30, -5, 18, 105, 42
+    };
+
+    std::cout << "Original data: ";
+    printVector(data);
+
+    std::vector<int> correctData = filterCorrectValues(data);
+    std::cout << "Correct values (> 0): ";
+    printVector(correctData);
+
+    int count = countInRange(correctData, 10, 50);
+    std::cout << "Elements in range [10, 50]: " << count << std::endl;
+
+    auto itFind = std::find_if(correctData.begin(), correctData.end(), [](int x) {
+        return x > 100;
+    });
+    if (itFind != correctData.end()) {
+        std::cout << "First element > 100: " << *itFind << std::endl;
+    } else {
+        std::cout << "No element > 100 found." << std::endl;
+    }
+
+    if (!correctData.empty()) {
+        auto [minIt, maxIt] = std::minmax_element(correctData.begin(), correctData.end());
+        std::cout << "Min correct value: " << *minIt << std::endl;
+        std::cout << "Max correct value: " << *maxIt << std::endl;
+    }
+
+    bool allPositive = std::all_of(correctData.begin(), correctData.end(), [](int x) {
+        return x > 0;
+    });
+    std::cout << "All filtered elements are positive? " << (allPositive ? "Yes" : "No") << std::endl;
+    std::vector<int> squares = getSquares(correctData);
+    std::cout << "Squares of correct values: ";
+    printVector(squares);
+
+    return 0;
+}
